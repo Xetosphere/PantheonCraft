@@ -1,2 +1,2 @@
-Pantheon-Craft
+Pantheon Craft
 ==============

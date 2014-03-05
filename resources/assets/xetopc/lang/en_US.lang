@@ -1,0 +1,7 @@
+item.xetopc:talisman.name=Talisman
+item.xetopc:talisman_ruby.name=Sacred Talisman
+item.xetopc:ruby.name=Ruby
+
+itemGroup.xetopc=Pantheon Craft
+
+tile.xetopc:ruby_ore.name=Ruby Ore
