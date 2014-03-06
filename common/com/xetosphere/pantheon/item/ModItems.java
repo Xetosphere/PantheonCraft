@@ -13,8 +13,8 @@ public class ModItems {
 
 	public void init() {
 
-		talisman = new ItemPC().setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.TALISMAN_NAME);
-		talismanRuby = new ItemPC().setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.TALISMANRUBY_NAME);
+		talisman = new ItemTalisman().setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.TALISMAN_NAME);
+		talismanRuby = new ItemTalisman().setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.TALISMANRUBY_NAME);
 		ruby = new ItemPC().setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.RUBY_NAME);
 
 		GameRegistry.registerItem(talisman, Strings.TALISMAN_NAME);

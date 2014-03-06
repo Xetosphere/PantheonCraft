@@ -1,12 +1,15 @@
 package com.xetosphere.pantheon;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraftforge.common.MinecraftForge;
 
 import com.xetosphere.pantheon.block.ModBlocks;
 import com.xetosphere.pantheon.core.proxy.CommonProxy;
 import com.xetosphere.pantheon.creativetab.TabPantheon;
+import com.xetosphere.pantheon.event.CultureEventHandler;
 import com.xetosphere.pantheon.item.ModItems;
 import com.xetosphere.pantheon.lib.Reference;
+import com.xetosphere.pantheon.network.PacketPipeline;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -23,6 +26,8 @@ public class PantheonCraft {
 
 	public static final CreativeTabs tabPC = new TabPantheon(CreativeTabs.getNextID(), Reference.MOD_ID);
 
+	public static final PacketPipeline packetPipeline = new PacketPipeline();
+
 	ModBlocks blocks = new ModBlocks();
 	ModItems items = new ModItems();
 	public static FMLEventChannel channel;
@@ -37,18 +42,23 @@ public class PantheonCraft {
 	public void preInit(FMLPreInitializationEvent e) {
 
 		blocks.init();
+
 		items.init();
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent e) {
 
-		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel("ExampleMod");
-    	proxy.load();
+		packetPipeline.initialise();
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
 
+		packetPipeline.postInitialise();
+
+		MinecraftForge.EVENT_BUS.register(new CultureEventHandler());
+
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, new CommonProxy());
 	}
 }
