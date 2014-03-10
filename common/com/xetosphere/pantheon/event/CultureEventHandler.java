@@ -21,21 +21,21 @@ public class CultureEventHandler {
 			ExtendedPlayer.register((EntityPlayer) event.entity);
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-		
+
 		if (!event.entity.worldObj.isRemote && event.entity instanceof EntityPlayer) {
-			
+
 			ExtendedPlayer.loadProxyData((EntityPlayer) event.entity);
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onLivingDeathEvent(LivingDeathEvent event) {
-		
+
 		if (!event.entity.worldObj.isRemote && event.entity instanceof EntityPlayer) {
-			
+
 			ExtendedPlayer.saveProxyData((EntityPlayer) event.entity);
 		}
 	}

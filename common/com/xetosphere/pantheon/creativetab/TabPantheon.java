@@ -12,7 +12,7 @@ public class TabPantheon extends CreativeTabs {
 	}
 
 	public Item getTabIconItem() {
-		
+
 		return ModItems.talismanRuby;
 	}
 

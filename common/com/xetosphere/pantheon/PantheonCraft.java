@@ -18,7 +18,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION)
@@ -30,7 +29,6 @@ public class PantheonCraft {
 
 	ModBlocks blocks = new ModBlocks();
 	ModItems items = new ModItems();
-	public static FMLEventChannel channel;
 
 	@Instance(Reference.MOD_ID)
 	public static PantheonCraft instance;

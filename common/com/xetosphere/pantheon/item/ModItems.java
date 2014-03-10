@@ -13,9 +13,9 @@ public class ModItems {
 
 	public void init() {
 
-		talisman = new ItemTalisman().setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.TALISMAN_NAME);
-		talismanRuby = new ItemTalisman().setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.TALISMANRUBY_NAME);
-		ruby = new ItemPC().setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.RUBY_NAME);
+		talisman = new ItemTalisman().setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.TALISMAN_NAME).setTextureName(Strings.RESOURCE_PREFIX + Strings.TALISMAN_NAME);
+		talismanRuby = new ItemTalisman().setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.TALISMANRUBY_NAME).setTextureName(Strings.RESOURCE_PREFIX + Strings.TALISMANRUBY_NAME);
+		ruby = new ItemPC().setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.RUBY_NAME).setTextureName(Strings.RESOURCE_PREFIX + Strings.RUBY_NAME);
 
 		GameRegistry.registerItem(talisman, Strings.TALISMAN_NAME);
 		GameRegistry.registerItem(talismanRuby, Strings.TALISMANRUBY_NAME);

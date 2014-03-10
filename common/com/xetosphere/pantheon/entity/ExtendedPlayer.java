@@ -19,15 +19,20 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 	private final EntityPlayer player;
 
 	private int culture, maxCulture;
+	
+	private String pantheon;
 
 	public static final int CULTURE_WATCHER = 25;
+	public static final int PANTHEON_WATCHER = 26;
 
 	public ExtendedPlayer(EntityPlayer player) {
 
 		this.player = player;
 		culture = 0;
 		maxCulture = 1000;
+		pantheon = "None";
 		player.getDataWatcher().addObject(CULTURE_WATCHER, culture);
+		player.getDataWatcher().addObject(PANTHEON_WATCHER, pantheon);
 	}
 
 	public static final void register(EntityPlayer player) {
@@ -46,6 +51,7 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 		NBTTagCompound properties = new NBTTagCompound();
 		properties.setInteger("Culture", player.getDataWatcher().getWatchableObjectInt(CULTURE_WATCHER));
 		properties.setInteger("MaxCulture", maxCulture);
+		properties.setString("Pantheon", player.getDataWatcher().getWatchableObjectString(PANTHEON_WATCHER));
 		compound.setTag(IDENTIFIER, properties);
 	}
 
@@ -55,7 +61,9 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 		NBTTagCompound properties = (NBTTagCompound) compound.getTag(IDENTIFIER);
 		player.getDataWatcher().updateObject(CULTURE_WATCHER, properties.getInteger("Culture"));
 		maxCulture = properties.getInteger("MaxCulture");
+		player.getDataWatcher().updateObject(PANTHEON_WATCHER, properties.getString("Pantheon"));
 		System.out.println("[XETOPC PROPS] Culture from NBT: " + player.getDataWatcher().getWatchableObjectInt(CULTURE_WATCHER) + "/" + maxCulture);
+		System.out.println("[XETOPC PROPS] Pantheon from NBT: " + player.getDataWatcher().getWatchableObjectString(PANTHEON_WATCHER));
 	}
 
 	@Override
@@ -72,40 +80,52 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 
 		return player.getDataWatcher().getWatchableObjectInt(CULTURE_WATCHER);
 	}
+	
+	public final String getPantheon() {
+		
+		return player.getDataWatcher().getWatchableObjectString(PANTHEON_WATCHER);
+	}
 
 	public final void setCulture(int amount) {
 
 		player.getDataWatcher().updateObject(CULTURE_WATCHER, amount > 0 ? (amount < maxCulture ? amount : maxCulture) : 0);
 	}
 	
-	public final int getMaxCulture() {
+	public final void setPantheon(String pantheon) {
 		
+		player.getDataWatcher().updateObject(PANTHEON_WATCHER, pantheon);
+	}
+
+	public final int getMaxCulture() {
+
 		return maxCulture;
 	}
-	
+
 	public final void setMaxCulture(int amount) {
 
 		maxCulture = (amount > 0 ? amount : 0);
 		PantheonCraft.packetPipeline.sendTo(new SyncPlayerPropsPacket(player), (EntityPlayerMP) player);
 	}
-	
+
 	private static final String getSaveKey(EntityPlayer player) {
-		
+
 		return player.getCommandSenderName() + ":" + IDENTIFIER;
 	}
-	
+
 	public static final void saveProxyData(EntityPlayer player) {
-		
+
 		NBTTagCompound savedData = new NBTTagCompound();
 		ExtendedPlayer.get(player).saveNBTData(savedData);
 		CommonProxy.storeEntityData(getSaveKey(player), savedData);
 	}
-	
+
 	public static final void loadProxyData(EntityPlayer player) {
-		
+
 		ExtendedPlayer playerData = ExtendedPlayer.get(player);
 		NBTTagCompound savedData = CommonProxy.getEntityData(getSaveKey(player));
-		if (savedData != null) { playerData.loadNBTData(savedData); }
+		if (savedData != null) {
+			playerData.loadNBTData(savedData);
+		}
 
 		PantheonCraft.packetPipeline.sendTo(new SyncPlayerPropsPacket(player), (EntityPlayerMP) player);
 	}

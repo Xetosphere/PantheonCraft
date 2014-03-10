@@ -1,13 +1,15 @@
 package com.xetosphere.pantheon.item;
 
-import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-//import net.minecraft.potion.Potion;
-//import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 
@@ -15,35 +17,76 @@ import com.xetosphere.pantheon.entity.ExtendedPlayer;
 
 public class ItemTalisman extends ItemPC {
 
+	private int pantheon;
+
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+		
+		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && !world.isRemote) {
 
-		if (world.isRemote) {
+			pantheon += 1;
+			
+			if (pantheon == 5) pantheon = 0;
+			
+			switch (pantheon) {
 
-			return itemStack;
+				case 0:
+					ExtendedPlayer.get(player).setPantheon("None");
+					ExtendedPlayer.get(player).setCulture(0);
+					if (!world.isRemote) player.addChatComponentMessage(new ChatComponentText("Pantheon is set to none."));
+					break;
+				case 1:
+					ExtendedPlayer.get(player).setPantheon("Greek");
+					ExtendedPlayer.get(player).setCulture(0);
+					if (!world.isRemote) player.addChatComponentMessage(new ChatComponentText("Pantheon is set to Greek."));
+					break;
+				case 2:
+					ExtendedPlayer.get(player).setPantheon("Norse");
+					ExtendedPlayer.get(player).setCulture(0);
+					if (!world.isRemote) player.addChatComponentMessage(new ChatComponentText("Pantheon is set to Norse."));
+					break;
+				case 3:
+					ExtendedPlayer.get(player).setPantheon("Roman");
+					ExtendedPlayer.get(player).setCulture(0);
+					if (!world.isRemote) player.addChatComponentMessage(new ChatComponentText("Pantheon is set to Roman."));
+					break;
+				case 4:
+					ExtendedPlayer.get(player).setPantheon("Egyptian");
+					ExtendedPlayer.get(player).setCulture(0);
+					if (!world.isRemote) player.addChatComponentMessage(new ChatComponentText("Pantheon is set to Egyptian."));
+					break;
+			}
 		}
 
-		if (ExtendedPlayer.get(player).getCulture() >= 100) {
+		if (ExtendedPlayer.get(player).getCulture() >= 100 && ExtendedPlayer.get(player).getPantheon().equals("Roman") && !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 
 			ExtendedPlayer.get(player).consumeCulture(100);
 
-			// player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 2400, 0, false));
+			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 2400, 0, false));
 
-			MovingObjectPosition objectMouseOver;
-			Minecraft mc = Minecraft.getMinecraft();
-
-			objectMouseOver = mc.thePlayer.rayTrace(300, 1);
+			final double EYE_HEIGHT = 1.62;
+			final double reachDistance = 300;
+			Vec3 startPos = player.getPosition(1.0F);
+			if (!world.isRemote) startPos = startPos.addVector(0, EYE_HEIGHT, 0);
+			Vec3 look = player.getLook(1.0F);
+			Vec3 endPos = startPos.addVector(look.xCoord * reachDistance, look.yCoord * reachDistance, look.zCoord * reachDistance);
+			MovingObjectPosition objectMouseOver = world.rayTraceBlocks(startPos, endPos);
 
 			if (objectMouseOver != null && objectMouseOver.typeOfHit == MovingObjectType.BLOCK) {
-				
+
 				int i = objectMouseOver.blockX;
 				int j = objectMouseOver.blockY;
 				int k = objectMouseOver.blockZ;
+
 				world.spawnEntityInWorld(new EntityLightningBolt(world, i, j, k));
 			}
 
-		} else {
+		} else if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 
-			player.addChatComponentMessage(new ChatComponentText("You don't have enough culture."));
+			if (!world.isRemote) {
+
+				player.addChatComponentMessage(new ChatComponentText("You don't have enough culture."));
+			}
+
 			ExtendedPlayer.get(player).setCulture(100);
 		}
 
