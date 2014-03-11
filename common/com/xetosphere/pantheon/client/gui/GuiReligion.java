@@ -78,36 +78,36 @@ public class GuiReligion extends GuiScreen {
 				ItemTalisman.pantheon = 1;
 				pantheon = "None";
 				pantheonId = "" + 1;
-				System.out.println(pantheon);
-				System.out.println(pantheonId);
+				System.out.println("[XETOPC] Pantheon = " + pantheon);
+				System.out.println("[XETOPC] PantheonId = " + pantheonId);
 				break;
 			case 1:
 				ItemTalisman.pantheon = 2;
 				pantheon = "Greek";
 				pantheonId = "" + 2;
-				System.out.println(pantheon);
-				System.out.println(pantheonId);
+				System.out.println("[XETOPC] Pantheon = " + pantheon);
+				System.out.println("[XETOPC] PantheonId = " + pantheonId);
 				break;
 			case 2:
 				ItemTalisman.pantheon = 3;
 				pantheon = "Norse";
 				pantheonId = "" + 3;
-				System.out.println(pantheon);
-				System.out.println(pantheonId);
+				System.out.println("[XETOPC] Pantheon = " + pantheon);
+				System.out.println("[XETOPC] PantheonId = " + pantheonId);
 				break;
 			case 3:
 				ItemTalisman.pantheon = 4;
 				pantheon = "Roman";
 				pantheonId = "" + 4;
-				System.out.println(pantheon);
-				System.out.println(pantheonId);
+				System.out.println("[XETOPC] Pantheon = " + pantheon);
+				System.out.println("[XETOPC] PantheonId = " + pantheonId);
 				break;
 			case 4:
 				ItemTalisman.pantheon = 5;
 				pantheon = "Egyptian";
 				pantheonId = "" + 5;
-				System.out.println(pantheon);
-				System.out.println(pantheonId);
+				System.out.println("[XETOPC] Pantheon = " + pantheon);
+				System.out.println("[XETOPC] PantheonId = " + pantheonId);
 				break;
 		}
 	}

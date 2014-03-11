@@ -59,36 +59,36 @@ public class ItemTalisman extends ItemPC {
 						ExtendedPlayer.get(player).setPantheon("None");
 						ExtendedPlayer.get(player).setCulture(0);
 						ExtendedPlayer.get(player).setPantheonId(pantheon);
-						System.out.println("Pantheon is set to " + ExtendedPlayer.get(player).getPantheon());
-						System.out.println("Pantheon ID = " + ExtendedPlayer.get(player).getPantheonId());
+						System.out.println("[XETOPC] Pantheon = " + ExtendedPlayer.get(player).getPantheon());
+						System.out.println("[XETOPC] Pantheon ID = " + ExtendedPlayer.get(player).getPantheonId());
 						break;
 					case 2:
 						ExtendedPlayer.get(player).setPantheon("Greek");
 						ExtendedPlayer.get(player).setCulture(0);
 						ExtendedPlayer.get(player).setPantheonId(pantheon);
-						System.out.println("Pantheon is set to " + ExtendedPlayer.get(player).getPantheon());
-						System.out.println("Pantheon ID = " + ExtendedPlayer.get(player).getPantheonId());
+						System.out.println("[XETOPC] Pantheon = " + ExtendedPlayer.get(player).getPantheon());
+						System.out.println("[XETOPC] Pantheon ID = " + ExtendedPlayer.get(player).getPantheonId());
 						break;
 					case 3:
 						ExtendedPlayer.get(player).setPantheon("Norse");
 						ExtendedPlayer.get(player).setCulture(0);
 						ExtendedPlayer.get(player).setPantheonId(pantheon);
-						System.out.println("Pantheon is set to " + ExtendedPlayer.get(player).getPantheon());
-						System.out.println("Pantheon ID = " + ExtendedPlayer.get(player).getPantheonId());
+						System.out.println("[XETOPC] Pantheon = " + ExtendedPlayer.get(player).getPantheon());
+						System.out.println("[XETOPC] Pantheon ID = " + ExtendedPlayer.get(player).getPantheonId());
 						break;
 					case 4:
 						ExtendedPlayer.get(player).setPantheon("Roman");
 						ExtendedPlayer.get(player).setCulture(0);
 						ExtendedPlayer.get(player).setPantheonId(pantheon);
-						System.out.println("Pantheon is set to " + ExtendedPlayer.get(player).getPantheon());
-						System.out.println("Pantheon ID = " + ExtendedPlayer.get(player).getPantheonId());
+						System.out.println("[XETOPC] Pantheon = " + ExtendedPlayer.get(player).getPantheon());
+						System.out.println("[XETOPC] Pantheon ID = " + ExtendedPlayer.get(player).getPantheonId());
 						break;
 					case 5:
 						ExtendedPlayer.get(player).setPantheon("Egyptian");
 						ExtendedPlayer.get(player).setCulture(0);
 						ExtendedPlayer.get(player).setPantheonId(pantheon);
-						System.out.println("Pantheon is set to " + ExtendedPlayer.get(player).getPantheon());
-						System.out.println("Pantheon ID = " + ExtendedPlayer.get(player).getPantheonId());
+						System.out.println("[XETOPC] Pantheon = " + ExtendedPlayer.get(player).getPantheon());
+						System.out.println("[XETOPC] Pantheon ID = " + ExtendedPlayer.get(player).getPantheonId());
 						break;
 				}
 			}
