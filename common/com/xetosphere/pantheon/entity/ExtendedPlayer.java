@@ -8,9 +8,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
 import com.xetosphere.pantheon.PantheonCraft;
-import com.xetosphere.pantheon.core.proxy.CommonProxy;
 import com.xetosphere.pantheon.lib.Reference;
 import com.xetosphere.pantheon.network.packet.SyncPlayerPropsPacket;
+import com.xetosphere.pantheon.proxy.CommonProxy;
 
 public class ExtendedPlayer implements IExtendedEntityProperties {
 
@@ -18,12 +18,13 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 
 	private final EntityPlayer player;
 
-	private int culture, maxCulture;
-	
+	private int culture, maxCulture, pantheonId;
+
 	private String pantheon;
 
 	public static final int CULTURE_WATCHER = 25;
 	public static final int PANTHEON_WATCHER = 26;
+	public static final int ID_WATCHER = 27;
 
 	public ExtendedPlayer(EntityPlayer player) {
 
@@ -31,8 +32,10 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 		culture = 0;
 		maxCulture = 1000;
 		pantheon = "None";
+		pantheonId = 1;
 		player.getDataWatcher().addObject(CULTURE_WATCHER, culture);
 		player.getDataWatcher().addObject(PANTHEON_WATCHER, pantheon);
+		player.getDataWatcher().addObject(ID_WATCHER, pantheonId);
 	}
 
 	public static final void register(EntityPlayer player) {
@@ -52,6 +55,7 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 		properties.setInteger("Culture", player.getDataWatcher().getWatchableObjectInt(CULTURE_WATCHER));
 		properties.setInteger("MaxCulture", maxCulture);
 		properties.setString("Pantheon", player.getDataWatcher().getWatchableObjectString(PANTHEON_WATCHER));
+		properties.setInteger("IdPantheon", player.getDataWatcher().getWatchableObjectInt(ID_WATCHER));
 		compound.setTag(IDENTIFIER, properties);
 	}
 
@@ -62,8 +66,9 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 		player.getDataWatcher().updateObject(CULTURE_WATCHER, properties.getInteger("Culture"));
 		maxCulture = properties.getInteger("MaxCulture");
 		player.getDataWatcher().updateObject(PANTHEON_WATCHER, properties.getString("Pantheon"));
+		player.getDataWatcher().updateObject(ID_WATCHER, properties.getInteger("IdPantheon"));
 		System.out.println("[XETOPC PROPS] Culture from NBT: " + player.getDataWatcher().getWatchableObjectInt(CULTURE_WATCHER) + "/" + maxCulture);
-		System.out.println("[XETOPC PROPS] Pantheon from NBT: " + player.getDataWatcher().getWatchableObjectString(PANTHEON_WATCHER));
+		System.out.println("[XETOPC PROPS] Pantheon from NBT: [ID = " + player.getDataWatcher().getWatchableObjectInt(ID_WATCHER) + "] " + player.getDataWatcher().getWatchableObjectString(PANTHEON_WATCHER));
 	}
 
 	@Override
@@ -80,20 +85,30 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 
 		return player.getDataWatcher().getWatchableObjectInt(CULTURE_WATCHER);
 	}
-	
+
 	public final String getPantheon() {
-		
+
 		return player.getDataWatcher().getWatchableObjectString(PANTHEON_WATCHER);
+	}
+
+	public final int getPantheonId() {
+
+		return player.getDataWatcher().getWatchableObjectInt(ID_WATCHER);
 	}
 
 	public final void setCulture(int amount) {
 
 		player.getDataWatcher().updateObject(CULTURE_WATCHER, amount > 0 ? (amount < maxCulture ? amount : maxCulture) : 0);
 	}
-	
+
 	public final void setPantheon(String pantheon) {
-		
+
 		player.getDataWatcher().updateObject(PANTHEON_WATCHER, pantheon);
+	}
+
+	public final void setPantheonId(int id) {
+
+		player.getDataWatcher().updateObject(ID_WATCHER, id);
 	}
 
 	public final int getMaxCulture() {

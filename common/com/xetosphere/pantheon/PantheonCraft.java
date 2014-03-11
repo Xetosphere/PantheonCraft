@@ -4,12 +4,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 
 import com.xetosphere.pantheon.block.ModBlocks;
-import com.xetosphere.pantheon.core.proxy.CommonProxy;
 import com.xetosphere.pantheon.creativetab.TabPantheon;
 import com.xetosphere.pantheon.event.CultureEventHandler;
 import com.xetosphere.pantheon.item.ModItems;
 import com.xetosphere.pantheon.lib.Reference;
 import com.xetosphere.pantheon.network.PacketPipeline;
+import com.xetosphere.pantheon.proxy.CommonProxy;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
