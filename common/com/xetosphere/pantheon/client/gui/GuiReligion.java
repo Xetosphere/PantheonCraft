@@ -3,11 +3,11 @@ package com.xetosphere.pantheon.client.gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
 
 import org.lwjgl.opengl.GL11;
 
 import com.xetosphere.pantheon.entity.ExtendedPlayer;
-import com.xetosphere.pantheon.item.ItemTalisman;
 import com.xetosphere.pantheon.lib.Textures;
 
 public class GuiReligion extends GuiScreen {
@@ -16,11 +16,9 @@ public class GuiReligion extends GuiScreen {
 
 	private int ySize = 166;
 
-	private String pantheon;
-
-	private String pantheonId;
-
 	EntityPlayer player;
+
+	private String[] pantheons = { "None", "Greek", "Norse", "Roman", "Egyptian" };
 
 	public GuiReligion(EntityPlayer player) {
 
@@ -29,9 +27,6 @@ public class GuiReligion extends GuiScreen {
 
 	public void updateScreen() {
 		super.updateScreen();
-
-		pantheon = "Pantheon is set to " + ExtendedPlayer.get(player).getPantheon();
-		pantheonId = "Pantheon ID = " + ExtendedPlayer.get(player).getPantheonId();
 	}
 
 	public void drawScreen(int x, int y, float f) {
@@ -64,50 +59,50 @@ public class GuiReligion extends GuiScreen {
 		int posX = (width - xSize) / 2;
 		int posY = (height - ySize) / 2;
 
-		this.buttonList.add(new GuiButton(0, posX + 10, posY + 10, 50, 20, "None"));
-		this.buttonList.add(new GuiButton(1, posX + 10, posY + 40, 50, 20, "Greek"));
-		this.buttonList.add(new GuiButton(2, posX + 10, posY + 70, 50, 20, "Norse"));
-		this.buttonList.add(new GuiButton(3, posX + 10, posY + 100, 50, 20, "Roman"));
-		this.buttonList.add(new GuiButton(4, posX + 10, posY + 130, 50, 20, "Egyptian"));
+		this.buttonList.add(new GuiButton(0, posX + 10, posY + 10, 50, 20, pantheons[0]));
+		this.buttonList.add(new GuiButton(1, posX + 10, posY + 40, 50, 20, pantheons[1]));
+		this.buttonList.add(new GuiButton(2, posX + 10, posY + 70, 50, 20, pantheons[2]));
+		this.buttonList.add(new GuiButton(3, posX + 10, posY + 100, 50, 20, pantheons[3]));
+		this.buttonList.add(new GuiButton(4, posX + 10, posY + 130, 50, 20, pantheons[4]));
 	}
 
 	public void actionPerformed(GuiButton button) {
 
 		switch (button.id) {
 			case 0:
-				ItemTalisman.pantheon = 1;
-				pantheon = "None";
-				pantheonId = "" + 1;
-				System.out.println("[XETOPC] Pantheon = " + pantheon);
-				System.out.println("[XETOPC] PantheonId = " + pantheonId);
+				ExtendedPlayer.get(player).setPantheon(pantheons[0]);
+				ExtendedPlayer.get(player).setPantheonId(0);
+				System.out.println("[XETOPC] Pantheon = " + ExtendedPlayer.get(player).getPantheon());
+				System.out.println("[XETOPC] PantheonId = " + ExtendedPlayer.get(player).getPantheonId());
+				player.addChatComponentMessage(new ChatComponentText("You set your pantheon to: " + ExtendedPlayer.get(player).getPantheon()));
 				break;
 			case 1:
-				ItemTalisman.pantheon = 2;
-				pantheon = "Greek";
-				pantheonId = "" + 2;
-				System.out.println("[XETOPC] Pantheon = " + pantheon);
-				System.out.println("[XETOPC] PantheonId = " + pantheonId);
+				ExtendedPlayer.get(player).setPantheon(pantheons[1]);
+				ExtendedPlayer.get(player).setPantheonId(1);
+				System.out.println("[XETOPC] Pantheon = " + ExtendedPlayer.get(player).getPantheon());
+				System.out.println("[XETOPC] PantheonId = " + ExtendedPlayer.get(player).getPantheonId());
+				player.addChatComponentMessage(new ChatComponentText("You set your pantheon to: " + ExtendedPlayer.get(player).getPantheon()));
 				break;
 			case 2:
-				ItemTalisman.pantheon = 3;
-				pantheon = "Norse";
-				pantheonId = "" + 3;
-				System.out.println("[XETOPC] Pantheon = " + pantheon);
-				System.out.println("[XETOPC] PantheonId = " + pantheonId);
+				ExtendedPlayer.get(player).setPantheon(pantheons[2]);
+				ExtendedPlayer.get(player).setPantheonId(2);
+				System.out.println("[XETOPC] Pantheon = " + ExtendedPlayer.get(player).getPantheon());
+				System.out.println("[XETOPC] PantheonId = " + ExtendedPlayer.get(player).getPantheonId());
+				player.addChatComponentMessage(new ChatComponentText("You set your pantheon to: " + ExtendedPlayer.get(player).getPantheon()));
 				break;
 			case 3:
-				ItemTalisman.pantheon = 4;
-				pantheon = "Roman";
-				pantheonId = "" + 4;
-				System.out.println("[XETOPC] Pantheon = " + pantheon);
-				System.out.println("[XETOPC] PantheonId = " + pantheonId);
+				ExtendedPlayer.get(player).setPantheon(pantheons[3]);
+				ExtendedPlayer.get(player).setPantheonId(3);
+				System.out.println("[XETOPC] Pantheon = " + ExtendedPlayer.get(player).getPantheon());
+				System.out.println("[XETOPC] PantheonId = " + ExtendedPlayer.get(player).getPantheonId());
+				player.addChatComponentMessage(new ChatComponentText("You set your pantheon to: " + ExtendedPlayer.get(player).getPantheon()));
 				break;
 			case 4:
-				ItemTalisman.pantheon = 5;
-				pantheon = "Egyptian";
-				pantheonId = "" + 5;
-				System.out.println("[XETOPC] Pantheon = " + pantheon);
-				System.out.println("[XETOPC] PantheonId = " + pantheonId);
+				ExtendedPlayer.get(player).setPantheon(pantheons[4]);
+				ExtendedPlayer.get(player).setPantheonId(4);
+				System.out.println("[XETOPC] Pantheon = " + ExtendedPlayer.get(player).getPantheon());
+				System.out.println("[XETOPC] PantheonId = " + ExtendedPlayer.get(player).getPantheonId());
+				player.addChatComponentMessage(new ChatComponentText("You set your pantheon to: " + ExtendedPlayer.get(player).getPantheon()));
 				break;
 		}
 	}
