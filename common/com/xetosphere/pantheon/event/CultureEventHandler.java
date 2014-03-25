@@ -5,7 +5,7 @@ import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
-import com.xetosphere.pantheon.entity.ExtendedPlayer;
+import com.xetosphere.pantheon.lib.ExtendedPlayer;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -16,9 +16,10 @@ public class CultureEventHandler {
 
 		if (event.entity instanceof EntityPlayer) {
 
-			if (ExtendedPlayer.get((EntityPlayer) event.entity) == null)
+			if (ExtendedPlayer.get((EntityPlayer) event.entity) == null) {
 
-			ExtendedPlayer.register((EntityPlayer) event.entity);
+				ExtendedPlayer.register((EntityPlayer) event.entity);
+			}
 		}
 	}
 

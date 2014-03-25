@@ -12,14 +12,16 @@ import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.xetosphere.pantheon.lib.Reference;
-import com.xetosphere.pantheon.network.packet.SyncPlayerPropsPacket;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
+
+import com.xetosphere.pantheon.lib.Reference;
+import com.xetosphere.pantheon.network.packet.SyncPlayerPropsPacket;
+import com.xetosphere.pantheon.network.packet.UpdateReligionPacket;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.FMLOutboundHandler;
@@ -116,6 +118,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 	public void registerPackets() {
 
 		registerPacket(SyncPlayerPropsPacket.class);
+		registerPacket(UpdateReligionPacket.class);
 	}
 
 	public void postInitialise() {

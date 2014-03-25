@@ -1,9 +1,10 @@
 package com.xetosphere.pantheon.block;
 
+import net.minecraft.block.Block;
+
 import com.xetosphere.pantheon.lib.Strings;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
 
 public class ModBlocks {
 

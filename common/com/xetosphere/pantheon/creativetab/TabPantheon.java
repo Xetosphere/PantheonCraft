@@ -1,9 +1,9 @@
 package com.xetosphere.pantheon.creativetab;
 
-import com.xetosphere.pantheon.item.ModItems;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+
+import com.xetosphere.pantheon.item.ModItems;
 
 public class TabPantheon extends CreativeTabs {
 

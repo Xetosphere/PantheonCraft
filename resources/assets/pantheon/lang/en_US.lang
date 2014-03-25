@@ -1,0 +1,7 @@
+item.pantheon:talisman.name=Talisman
+item.pantheon:talisman_ruby.name=Sacred Talisman
+item.pantheon:ruby.name=Ruby
+
+itemGroup.pantheon=Pantheon Craft
+
+tile.pantheon:ruby_ore.name=Ruby Ore

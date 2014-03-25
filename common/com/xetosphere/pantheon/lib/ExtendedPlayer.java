@@ -1,4 +1,4 @@
-package com.xetosphere.pantheon.entity;
+package com.xetosphere.pantheon.lib;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
 import com.xetosphere.pantheon.PantheonCraft;
-import com.xetosphere.pantheon.lib.Reference;
 import com.xetosphere.pantheon.network.packet.SyncPlayerPropsPacket;
 import com.xetosphere.pantheon.proxy.CommonProxy;
 
@@ -30,9 +29,9 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 
 		this.player = player;
 		culture = 0;
-		maxCulture = 1000;
-		pantheon = "None";
-		pantheonId = 1;
+		maxCulture = PantheonReference.MAX_CULTURE;
+		pantheon = PantheonReference.pantheons[PantheonReference.NO_RELIGION];
+		pantheonId = PantheonReference.NO_RELIGION;
 		player.getDataWatcher().addObject(CULTURE_WATCHER, culture);
 		player.getDataWatcher().addObject(PANTHEON_WATCHER, pantheon);
 		player.getDataWatcher().addObject(ID_WATCHER, pantheonId);
@@ -76,6 +75,7 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 	}
 
 	public final boolean consumeCulture(int amount) {
+
 		boolean sufficient = amount <= getCulture();
 		setCulture(getCulture() - amount);
 		return sufficient;
@@ -120,6 +120,7 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 
 		maxCulture = (amount > 0 ? amount : 0);
 		PantheonCraft.packetPipeline.sendTo(new SyncPlayerPropsPacket(player), (EntityPlayerMP) player);
+		PantheonCraft.packetPipeline.sendToServer(new SyncPlayerPropsPacket(player));
 	}
 
 	private static final String getSaveKey(EntityPlayer player) {
@@ -138,11 +139,13 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 
 		ExtendedPlayer playerData = ExtendedPlayer.get(player);
 		NBTTagCompound savedData = CommonProxy.getEntityData(getSaveKey(player));
+
 		if (savedData != null) {
 			playerData.loadNBTData(savedData);
 		}
 
 		PantheonCraft.packetPipeline.sendTo(new SyncPlayerPropsPacket(player), (EntityPlayerMP) player);
+		PantheonCraft.packetPipeline.sendToServer(new SyncPlayerPropsPacket(player));
 	}
 
 }
