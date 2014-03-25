@@ -17,6 +17,7 @@ import com.xetosphere.pantheon.PantheonCraft;
 import com.xetosphere.pantheon.lib.ExtendedPlayer;
 import com.xetosphere.pantheon.lib.GuiIds;
 import com.xetosphere.pantheon.lib.PantheonReference;
+import com.xetosphere.pantheon.network.packet.UpdateOpinionPacket;
 
 public class ItemTalisman extends ItemPC {
 
@@ -26,6 +27,14 @@ public class ItemTalisman extends ItemPC {
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
 
 		String pantheon = ExtendedPlayer.get(player).getPantheon();
+		int opinionGreek = ExtendedPlayer.get(player).getOpinion(PantheonReference.GREEK);
+		int opinionNorse = ExtendedPlayer.get(player).getOpinion(PantheonReference.NORSE);
+		int opinionRoman = ExtendedPlayer.get(player).getOpinion(PantheonReference.ROMAN);
+		int opinionEgyptian = ExtendedPlayer.get(player).getOpinion(PantheonReference.EGYPTIAN);
+		int opinionMayan = ExtendedPlayer.get(player).getOpinion(PantheonReference.MAYAN);
+		int opinionChinese = ExtendedPlayer.get(player).getOpinion(PantheonReference.CHINESE);
+		int opinionHindu = ExtendedPlayer.get(player).getOpinion(PantheonReference.HINDU);
+		int opinionAztec = ExtendedPlayer.get(player).getOpinion(PantheonReference.AZTECIAN);
 
 		final int ONE_SECOND = 20;
 
@@ -64,6 +73,10 @@ public class ItemTalisman extends ItemPC {
 
 					world.spawnEntityInWorld(new EntityLightningBolt(world, i, j, k));
 
+					if (opinionGreek + 2 < 200) {
+						opinionGreek += 2;
+					}
+
 				} else {
 
 					if (!world.isRemote) {
@@ -81,6 +94,10 @@ public class ItemTalisman extends ItemPC {
 
 					ExtendedPlayer.get(player).consumeCulture(100);
 					player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * ONE_SECOND, 0, false));
+
+					if (opinionNorse + 2 < 200) {
+						opinionNorse += 2;
+					}
 
 				} else {
 
@@ -105,6 +122,10 @@ public class ItemTalisman extends ItemPC {
 
 					if (!world.isRemote) world.createExplosion(player, i, j, k, 3, true);
 
+					if (opinionRoman + 2 < 200) {
+						opinionRoman += 2;
+					}
+
 				} else {
 
 					if (!world.isRemote) {
@@ -121,7 +142,11 @@ public class ItemTalisman extends ItemPC {
 				if (ExtendedPlayer.get(player).getCulture() >= 100) {
 
 					ExtendedPlayer.get(player).consumeCulture(100);
-					if (!world.isRemote) player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 120 * ONE_SECOND, 0, false));
+					player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 120 * ONE_SECOND, 0, false));
+
+					if (opinionEgyptian + 2 < 200) {
+						opinionEgyptian += 2;
+					}
 
 				} else {
 
@@ -141,6 +166,10 @@ public class ItemTalisman extends ItemPC {
 					ExtendedPlayer.get(player).consumeCulture(100);
 					if (!world.isRemote) player.addChatComponentMessage(new ChatComponentText("Shooting mayan powers."));
 
+					if (opinionMayan + 2 < 200) {
+						opinionMayan += 2;
+					}
+
 				} else {
 
 					if (!world.isRemote) {
@@ -158,6 +187,10 @@ public class ItemTalisman extends ItemPC {
 
 					ExtendedPlayer.get(player).consumeCulture(100);
 					if (!world.isRemote) player.addChatComponentMessage(new ChatComponentText("Shooting chinese powers."));
+
+					if (opinionChinese + 2 < 200) {
+						opinionChinese += 2;
+					}
 
 				} else {
 
@@ -177,6 +210,10 @@ public class ItemTalisman extends ItemPC {
 					ExtendedPlayer.get(player).consumeCulture(100);
 					if (!world.isRemote) player.addChatComponentMessage(new ChatComponentText("Shooting hindu powers."));
 
+					if (opinionHindu + 2 < 200) {
+						opinionHindu += 2;
+					}
+
 				} else {
 
 					if (!world.isRemote) {
@@ -195,6 +232,10 @@ public class ItemTalisman extends ItemPC {
 					ExtendedPlayer.get(player).consumeCulture(100);
 					if (!world.isRemote) player.addChatComponentMessage(new ChatComponentText("Shooting aztecian powers."));
 
+					if (opinionAztec + 2 < 200) {
+						opinionAztec += 2;
+					}
+
 				} else {
 
 					if (!world.isRemote) {
@@ -208,6 +249,7 @@ public class ItemTalisman extends ItemPC {
 			if (!world.isRemote && pantheon.equals(PantheonReference.pantheons[PantheonReference.NO_RELIGION])) player.addChatComponentMessage(new ChatComponentText("No God, no special effects!"));
 		}
 
+		PantheonCraft.packetPipeline.sendToServer(new UpdateOpinionPacket(opinionGreek, opinionNorse, opinionRoman, opinionEgyptian, opinionMayan, opinionChinese, opinionHindu, opinionAztec));
 		return itemStack;
 	}
 }

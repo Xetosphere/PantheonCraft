@@ -18,11 +18,12 @@ public class UpdateReligionPacket extends AbstractPacket {
 	public UpdateReligionPacket() {
 	}
 
-	public UpdateReligionPacket(String religion, int religionId) {
+	public UpdateReligionPacket(String religion, int religionId, int culture) {
 
 		data = new NBTTagCompound();
 		data.setString("Pantheon", religion);
 		data.setInteger("IdPantheon", religionId);
+		data.setInteger("Culture", culture);
 	}
 
 	@Override
@@ -47,6 +48,7 @@ public class UpdateReligionPacket extends AbstractPacket {
 
 		ExtendedPlayer.get(player).setPantheon(data.getString("Pantheon"));
 		ExtendedPlayer.get(player).setPantheonId(data.getInteger("IdPantheon"));
+		ExtendedPlayer.get(player).setCulture(data.getInteger("Culture"));
 		if (player.worldObj.isRemote) player.addChatComponentMessage(new ChatComponentText("You set your pantheon to: " + ExtendedPlayer.get(player).getPantheon()));
 		System.out.println("[XETOPC] Pantheon = " + ExtendedPlayer.get(player).getPantheon());
 		System.out.println("[XETOPC] PantheonId = " + ExtendedPlayer.get(player).getPantheonId());

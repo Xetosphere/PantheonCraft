@@ -10,6 +10,7 @@ import com.xetosphere.pantheon.PantheonCraft;
 import com.xetosphere.pantheon.lib.ExtendedPlayer;
 import com.xetosphere.pantheon.lib.PantheonReference;
 import com.xetosphere.pantheon.lib.Textures;
+import com.xetosphere.pantheon.network.packet.UpdateOpinionPacket;
 import com.xetosphere.pantheon.network.packet.UpdateReligionPacket;
 
 public class GuiReligion extends GuiScreen {
@@ -39,12 +40,17 @@ public class GuiReligion extends GuiScreen {
 
 		int posX = (width - xSize) / 2;
 		int posY = (height - ySize) / 2;
+		
+		int opinionId = ExtendedPlayer.get(player).getPantheonId();
 
 		drawTexturedModalRect(posX, posY, 0, 0, xSize, ySize);
-		drawString(fontRendererObj, "Pantheon:", posX + (xSize / 12), posY + 16, 0xffffffff);
-		drawString(fontRendererObj, "Culture:", posX + (xSize / 12), posY + 36, 0xffffffff);
-		drawCenteredString(fontRendererObj, ExtendedPlayer.get(player).getPantheon(), posX + (xSize / 4 * 3), posY + 16, 0xffffffff);
-		drawCenteredString(fontRendererObj, ExtendedPlayer.get(player).getCulture() + "/" + ExtendedPlayer.get(player).getMaxCulture(), posX + (xSize / 4 * 3), posY + 36, 0xffffffff);
+		drawString(fontRendererObj, "Pantheon:", posX + (xSize / 12 * 2), posY + 16, 0xffffffff);
+		drawString(fontRendererObj, "Culture:", posX + (xSize / 12 * 2), posY + 36, 0xffffffff);
+		drawString(fontRendererObj, "Opinion:", posX + (xSize / 12 * 2), posY + 56, 0xffffffff);
+		drawCenteredString(fontRendererObj, ExtendedPlayer.get(player).getPantheon(), posX + (xSize / 6 * 4), posY + 16, 0xffffffff);
+		drawCenteredString(fontRendererObj, ExtendedPlayer.get(player).getCulture() + "/" + ExtendedPlayer.get(player).getMaxCulture(), posX + (xSize / 6 * 4), posY + 36, 0xffffffff);
+		drawCenteredString(fontRendererObj, "" + ExtendedPlayer.get(player).getOpinion(opinionId), posX + (xSize / 6 * 4), posY + 56, 0xffffffff);
+		drawCenteredString(fontRendererObj, "Change pantheon to:", posX + (xSize / 2), posY + (ySize / 2), 0xffffffff);
 
 		super.drawScreen(x, y, f);
 	}
@@ -75,48 +81,136 @@ public class GuiReligion extends GuiScreen {
 
 	public void actionPerformed(GuiButton button) {
 
+		String currentReligion = ExtendedPlayer.get(player).getPantheon();
 		String religion = PantheonReference.pantheons[PantheonReference.NO_RELIGION];
 		int religionId = PantheonReference.NO_RELIGION;
+		int culturePoints = ExtendedPlayer.get(player).getCulture();
+		int opinionGreek = ExtendedPlayer.get(player).getOpinion(PantheonReference.GREEK);
+		int opinionNorse = ExtendedPlayer.get(player).getOpinion(PantheonReference.NORSE);
+		int opinionRoman = ExtendedPlayer.get(player).getOpinion(PantheonReference.ROMAN);
+		int opinionEgyptian = ExtendedPlayer.get(player).getOpinion(PantheonReference.EGYPTIAN);
+		int opinionMayan = ExtendedPlayer.get(player).getOpinion(PantheonReference.MAYAN);
+		int opinionChinese = ExtendedPlayer.get(player).getOpinion(PantheonReference.CHINESE);
+		int opinionHindu = ExtendedPlayer.get(player).getOpinion(PantheonReference.HINDU);
+		int opinionAztec = ExtendedPlayer.get(player).getOpinion(PantheonReference.AZTECIAN);
+		int amount = 20;
 
 		switch (button.id) {
 			case 0:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.NO_RELIGION])) {
+
+					culturePoints = 0;
+				}
 				religion = PantheonReference.pantheons[PantheonReference.NO_RELIGION];
 				religionId = PantheonReference.NO_RELIGION;
 				break;
 			case 1:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.GREEK])) {
+
+					culturePoints = 0;
+					if (opinionGreek - amount >= -200) {
+						opinionGreek -= amount;
+					} else {
+						opinionGreek = -200;
+					}
+				}
 				religion = PantheonReference.pantheons[PantheonReference.GREEK];
 				religionId = PantheonReference.GREEK;
 				break;
 			case 2:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.NORSE])) {
+
+					culturePoints = 0;
+					if (opinionNorse - amount >= -200) {
+						opinionNorse -= amount;
+					} else {
+						opinionNorse = -200;
+					}
+				}
 				religion = PantheonReference.pantheons[PantheonReference.NORSE];
 				religionId = PantheonReference.NORSE;
 				break;
 			case 3:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.ROMAN])) {
+
+					culturePoints = 0;
+					if (opinionRoman - amount >= -200) {
+						opinionRoman -= amount;
+					} else {
+						opinionRoman = -200;
+					}
+				}
 				religion = PantheonReference.pantheons[PantheonReference.ROMAN];
 				religionId = PantheonReference.ROMAN;
 				break;
 			case 4:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.EGYPTIAN])) {
+
+					culturePoints = 0;
+					if (opinionEgyptian - amount >= -200) {
+						opinionEgyptian -= amount;
+					} else {
+						opinionEgyptian = -200;
+					}
+				}
 				religion = PantheonReference.pantheons[PantheonReference.EGYPTIAN];
 				religionId = PantheonReference.EGYPTIAN;
 				break;
 			case 5:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.MAYAN])) {
+
+					culturePoints = 0;
+					if (opinionMayan - amount >= -200) {
+						opinionMayan -= amount;
+					} else {
+						opinionMayan = -200;
+					}
+				}
 				religion = PantheonReference.pantheons[PantheonReference.MAYAN];
 				religionId = PantheonReference.MAYAN;
 				break;
 			case 6:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.CHINESE])) {
+
+					culturePoints = 0;
+					if (opinionChinese - amount >= -200) {
+						opinionChinese -= amount;
+					} else {
+						opinionChinese = -200;
+					}
+				}
 				religion = PantheonReference.pantheons[PantheonReference.CHINESE];
 				religionId = PantheonReference.CHINESE;
 				break;
 			case 7:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.HINDU])) {
+
+					culturePoints = 0;
+					if (opinionHindu - amount >= -200) {
+						opinionHindu -= amount;
+					} else {
+						opinionHindu = -200;
+					}
+				}
 				religion = PantheonReference.pantheons[PantheonReference.HINDU];
 				religionId = PantheonReference.HINDU;
 				break;
 			case 8:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.AZTECIAN])) {
+
+					culturePoints = 0;
+					if (opinionAztec - amount >= -200) {
+						opinionAztec -= amount;
+					} else {
+						opinionAztec = -200;
+					}
+				}
 				religion = PantheonReference.pantheons[PantheonReference.AZTECIAN];
 				religionId = PantheonReference.AZTECIAN;
 				break;
 		}
 
-		PantheonCraft.packetPipeline.sendToServer(new UpdateReligionPacket(religion, religionId));
+		PantheonCraft.packetPipeline.sendToServer(new UpdateReligionPacket(religion, religionId, culturePoints));
+		PantheonCraft.packetPipeline.sendToServer(new UpdateOpinionPacket(opinionGreek, opinionNorse, opinionRoman, opinionEgyptian, opinionMayan, opinionChinese, opinionHindu, opinionAztec));
 	}
 }

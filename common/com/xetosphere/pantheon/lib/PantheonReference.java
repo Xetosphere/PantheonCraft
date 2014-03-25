@@ -4,6 +4,7 @@ public class PantheonReference {
 
 	public static final String[] pantheons = { "None", "Greek", "Norse", "Roman", "Egyptian", "Mayan", "Chinese", "Hindu", "Aztecian" };
 
+	public static final int MAX_OPINION = 200;
 	public static final int MAX_CULTURE = 1000;
 	public static final int NO_RELIGION = 0;
 	public static final int GREEK = 1;

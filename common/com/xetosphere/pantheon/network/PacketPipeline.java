@@ -20,6 +20,7 @@ import net.minecraft.network.NetHandlerPlayServer;
 
 import com.xetosphere.pantheon.lib.Reference;
 import com.xetosphere.pantheon.network.packet.SyncPlayerPropsPacket;
+import com.xetosphere.pantheon.network.packet.UpdateOpinionPacket;
 import com.xetosphere.pantheon.network.packet.UpdateReligionPacket;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -119,6 +120,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 
 		registerPacket(SyncPlayerPropsPacket.class);
 		registerPacket(UpdateReligionPacket.class);
+		registerPacket(UpdateOpinionPacket.class);
 	}
 
 	public void postInitialise() {
