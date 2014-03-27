@@ -14,16 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>common</name>
-			<type>2</type>
-			<location>D:/development/source/PantheonCraft/common</location>
-		</link>
-		<link>
-			<name>resources</name>
-			<type>2</type>
-			<location>D:/development/source/PantheonCraft/resources</location>
-		</link>
-	</linkedResources>
 </projectDescription>
