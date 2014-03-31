@@ -14,6 +14,7 @@ public class BlockPC extends Block {
 		setCreativeTab(PantheonCraft.tabPC);
 	}
 
+	@Override
 	public void registerBlockIcons(IIconRegister iconRegister) {
 
 		blockIcon = iconRegister.registerIcon(getUnlocalizedName().substring(getUnlocalizedName().indexOf('.') + 1));

@@ -11,6 +11,7 @@ public class TabPantheon extends CreativeTabs {
 		super(id, inCodeName);
 	}
 
+	@Override
 	public Item getTabIconItem() {
 
 		return ModItems.talismanRuby;

@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.opengl.GL11;
 
 import com.xetosphere.pantheon.PantheonCraft;
+import com.xetosphere.pantheon.client.gui.button.GuiButtonWithImage;
 import com.xetosphere.pantheon.lib.ExtendedPlayer;
 import com.xetosphere.pantheon.lib.PantheonReference;
 import com.xetosphere.pantheon.lib.Textures;
@@ -21,15 +22,19 @@ public class GuiReligion extends GuiScreen {
 
 	EntityPlayer player;
 
+	boolean statsPage = true;
+
 	public GuiReligion(EntityPlayer player) {
 
 		this.player = player;
 	}
 
+	@Override
 	public void updateScreen() {
 		super.updateScreen();
 	}
 
+	@Override
 	public void drawScreen(int x, int y, float f) {
 
 		drawDefaultBackground();
@@ -39,34 +44,39 @@ public class GuiReligion extends GuiScreen {
 		mc.getTextureManager().bindTexture(Textures.GUI_RELIGION);
 
 		int posX = (width - xSize) / 2;
-		int posY = (height - ySize) / 2;
-		
+		int posY = (height - ySize + 20) / 2;
+
 		int opinionId = ExtendedPlayer.get(player).getPantheonId();
 
 		drawTexturedModalRect(posX, posY, 0, 0, xSize, ySize);
-		drawString(fontRendererObj, "Pantheon:", posX + (xSize / 12 * 2), posY + 16, 0xffffffff);
-		drawString(fontRendererObj, "Culture:", posX + (xSize / 12 * 2), posY + 36, 0xffffffff);
-		drawString(fontRendererObj, "Opinion:", posX + (xSize / 12 * 2), posY + 56, 0xffffffff);
-		drawCenteredString(fontRendererObj, ExtendedPlayer.get(player).getPantheon(), posX + (xSize / 6 * 4), posY + 16, 0xffffffff);
-		drawCenteredString(fontRendererObj, ExtendedPlayer.get(player).getCulture() + "/" + ExtendedPlayer.get(player).getMaxCulture(), posX + (xSize / 6 * 4), posY + 36, 0xffffffff);
-		drawCenteredString(fontRendererObj, "" + ExtendedPlayer.get(player).getOpinion(opinionId), posX + (xSize / 6 * 4), posY + 56, 0xffffffff);
-		drawCenteredString(fontRendererObj, "Change pantheon to:", posX + (xSize / 2), posY + (ySize / 2), 0xffffffff);
+		if (getStatsPage()) drawTexturedModalRect(posX + 16, posY + 12, 0, 240, 144, 16);
+		if (getStatsPage()) drawTexturedModalRect(posX + 16, posY + 32, 0, 240, 144, 16);
+		if (getStatsPage()) drawTexturedModalRect(posX + 16, posY + 52, 0, 240, 144, 16);
+		if (getStatsPage()) drawString(fontRendererObj, "Pantheon:", posX + (xSize / 12 * 2), posY + 16, 0xffffffff);
+		if (getStatsPage()) drawString(fontRendererObj, "Culture:", posX + (xSize / 12 * 2), posY + 36, 0xffffffff);
+		if (getStatsPage()) drawString(fontRendererObj, "Opinion:", posX + (xSize / 12 * 2), posY + 56, 0xffffffff);
+		if (getStatsPage()) drawCenteredString(fontRendererObj, ExtendedPlayer.get(player).getPantheon(), posX + (xSize / 6 * 4), posY + 16, 0xffffffff);
+		if (getStatsPage()) drawCenteredString(fontRendererObj, ExtendedPlayer.get(player).getCulture() + "/" + ExtendedPlayer.get(player).getMaxCulture(), posX + (xSize / 6 * 4), posY + 36, 0xffffffff);
+		if (getStatsPage()) drawCenteredString(fontRendererObj, ExtendedPlayer.get(player).getOpinion(opinionId) + "", posX + (xSize / 6 * 4), posY + 56, 0xffffffff);
+		if (getStatsPage()) drawCenteredString(fontRendererObj, "Change pantheon to:", posX + (xSize / 2), posY + (ySize / 2), 0xffffffff);
 
 		super.drawScreen(x, y, f);
 	}
 
+	@Override
 	public boolean doesGuiPauseGame() {
 
 		return false;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void initGui() {
 
 		this.buttonList.clear();
 
 		int posX = (width - xSize) / 2;
-		int posY = (height - ySize) / 2;
+		int posY = (height - ySize + 20) / 2;
 
 		this.buttonList.add(new GuiButton(0, posX + (xSize / 9 * 0) + 6, posY + 120 + (25 * 0), 50, 20, PantheonReference.pantheons[PantheonReference.NO_RELIGION]));
 		this.buttonList.add(new GuiButton(1, posX + (xSize / 9 * 0) + 6, posY + 120 + (25 * 1), 50, 20, PantheonReference.pantheons[PantheonReference.GREEK]));
@@ -77,8 +87,10 @@ public class GuiReligion extends GuiScreen {
 		this.buttonList.add(new GuiButton(6, posX + (xSize / 9 * 6) + 6, posY + 120 + (25 * 0), 50, 20, PantheonReference.pantheons[PantheonReference.CHINESE]));
 		this.buttonList.add(new GuiButton(7, posX + (xSize / 9 * 6) + 6, posY + 120 + (25 * 1), 50, 20, PantheonReference.pantheons[PantheonReference.HINDU]));
 		this.buttonList.add(new GuiButton(8, posX + (xSize / 9 * 6) + 6, posY + 120 + (25 * 2), 50, 20, PantheonReference.pantheons[PantheonReference.AZTECIAN]));
+		this.buttonList.add(new GuiButtonWithImage(9, posX, posY - 17, 56, 21, 176, 0, "Gods", Textures.GUI_RELIGION));
 	}
 
+	@Override
 	public void actionPerformed(GuiButton button) {
 
 		String currentReligion = ExtendedPlayer.get(player).getPantheon();
@@ -96,6 +108,7 @@ public class GuiReligion extends GuiScreen {
 		int amount = 20;
 
 		switch (button.id) {
+
 			case 0:
 				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.NO_RELIGION])) {
 
@@ -104,113 +117,477 @@ public class GuiReligion extends GuiScreen {
 				religion = PantheonReference.pantheons[PantheonReference.NO_RELIGION];
 				religionId = PantheonReference.NO_RELIGION;
 				break;
+
 			case 1:
 				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.GREEK])) {
 
 					culturePoints = 0;
-					if (opinionGreek - amount >= -200) {
-						opinionGreek -= amount;
+					if (opinionGreek + amount <= 200) {
+						opinionGreek += amount;
 					} else {
-						opinionGreek = -200;
+						opinionGreek = 200;
 					}
-				}
-				religion = PantheonReference.pantheons[PantheonReference.GREEK];
-				religionId = PantheonReference.GREEK;
-				break;
-			case 2:
-				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.NORSE])) {
 
-					culturePoints = 0;
 					if (opinionNorse - amount >= -200) {
 						opinionNorse -= amount;
 					} else {
 						opinionNorse = -200;
 					}
-				}
-				religion = PantheonReference.pantheons[PantheonReference.NORSE];
-				religionId = PantheonReference.NORSE;
-				break;
-			case 3:
-				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.ROMAN])) {
 
-					culturePoints = 0;
 					if (opinionRoman - amount >= -200) {
 						opinionRoman -= amount;
 					} else {
 						opinionRoman = -200;
 					}
-				}
-				religion = PantheonReference.pantheons[PantheonReference.ROMAN];
-				religionId = PantheonReference.ROMAN;
-				break;
-			case 4:
-				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.EGYPTIAN])) {
 
-					culturePoints = 0;
 					if (opinionEgyptian - amount >= -200) {
 						opinionEgyptian -= amount;
 					} else {
 						opinionEgyptian = -200;
 					}
-				}
-				religion = PantheonReference.pantheons[PantheonReference.EGYPTIAN];
-				religionId = PantheonReference.EGYPTIAN;
-				break;
-			case 5:
-				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.MAYAN])) {
 
-					culturePoints = 0;
 					if (opinionMayan - amount >= -200) {
 						opinionMayan -= amount;
 					} else {
 						opinionMayan = -200;
 					}
-				}
-				religion = PantheonReference.pantheons[PantheonReference.MAYAN];
-				religionId = PantheonReference.MAYAN;
-				break;
-			case 6:
-				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.CHINESE])) {
 
-					culturePoints = 0;
 					if (opinionChinese - amount >= -200) {
 						opinionChinese -= amount;
 					} else {
 						opinionChinese = -200;
 					}
-				}
-				religion = PantheonReference.pantheons[PantheonReference.CHINESE];
-				religionId = PantheonReference.CHINESE;
-				break;
-			case 7:
-				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.HINDU])) {
 
-					culturePoints = 0;
 					if (opinionHindu - amount >= -200) {
 						opinionHindu -= amount;
 					} else {
 						opinionHindu = -200;
 					}
+
+					if (opinionAztec - amount >= -200) {
+						opinionAztec -= amount;
+					} else {
+						opinionAztec = -200;
+					}
+
 				}
-				religion = PantheonReference.pantheons[PantheonReference.HINDU];
-				religionId = PantheonReference.HINDU;
+				religion = PantheonReference.pantheons[PantheonReference.GREEK];
+				religionId = PantheonReference.GREEK;
 				break;
-			case 8:
-				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.AZTECIAN])) {
+
+			case 2:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.NORSE])) {
 
 					culturePoints = 0;
+					if (opinionNorse + amount <= 200) {
+						opinionNorse += amount;
+					} else {
+						opinionNorse = 200;
+					}
+
+					if (opinionGreek - amount >= -200) {
+						opinionGreek -= amount;
+					} else {
+						opinionGreek = -200;
+					}
+
+					if (opinionRoman - amount >= -200) {
+						opinionRoman -= amount;
+					} else {
+						opinionRoman = -200;
+					}
+
+					if (opinionEgyptian - amount >= -200) {
+						opinionEgyptian -= amount;
+					} else {
+						opinionEgyptian = -200;
+					}
+
+					if (opinionMayan - amount >= -200) {
+						opinionMayan -= amount;
+					} else {
+						opinionMayan = -200;
+					}
+
+					if (opinionChinese - amount >= -200) {
+						opinionChinese -= amount;
+					} else {
+						opinionChinese = -200;
+					}
+
+					if (opinionHindu - amount >= -200) {
+						opinionHindu -= amount;
+					} else {
+						opinionHindu = -200;
+					}
+
 					if (opinionAztec - amount >= -200) {
 						opinionAztec -= amount;
 					} else {
 						opinionAztec = -200;
 					}
 				}
+				religion = PantheonReference.pantheons[PantheonReference.NORSE];
+				religionId = PantheonReference.NORSE;
+				break;
+
+			case 3:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.ROMAN])) {
+
+					culturePoints = 0;
+					if (opinionRoman + amount <= 200) {
+						opinionRoman += amount;
+					} else {
+						opinionRoman = 200;
+					}
+
+					if (opinionNorse - amount >= -200) {
+						opinionNorse -= amount;
+					} else {
+						opinionNorse = -200;
+					}
+
+					if (opinionGreek - amount >= -200) {
+						opinionGreek -= amount;
+					} else {
+						opinionGreek = -200;
+					}
+
+					if (opinionEgyptian - amount >= -200) {
+						opinionEgyptian -= amount;
+					} else {
+						opinionEgyptian = -200;
+					}
+
+					if (opinionMayan - amount >= -200) {
+						opinionMayan -= amount;
+					} else {
+						opinionMayan = -200;
+					}
+
+					if (opinionChinese - amount >= -200) {
+						opinionChinese -= amount;
+					} else {
+						opinionChinese = -200;
+					}
+
+					if (opinionHindu - amount >= -200) {
+						opinionHindu -= amount;
+					} else {
+						opinionHindu = -200;
+					}
+
+					if (opinionAztec - amount >= -200) {
+						opinionAztec -= amount;
+					} else {
+						opinionAztec = -200;
+					}
+				}
+				religion = PantheonReference.pantheons[PantheonReference.ROMAN];
+				religionId = PantheonReference.ROMAN;
+				break;
+
+			case 4:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.EGYPTIAN])) {
+
+					culturePoints = 0;
+					if (opinionEgyptian + amount <= 200) {
+						opinionEgyptian += amount;
+					} else {
+						opinionEgyptian = 200;
+					}
+
+					if (opinionNorse - amount >= -200) {
+						opinionNorse -= amount;
+					} else {
+						opinionNorse = -200;
+					}
+
+					if (opinionRoman - amount >= -200) {
+						opinionRoman -= amount;
+					} else {
+						opinionRoman = -200;
+					}
+
+					if (opinionGreek - amount >= -200) {
+						opinionGreek -= amount;
+					} else {
+						opinionGreek = -200;
+					}
+
+					if (opinionMayan - amount >= -200) {
+						opinionMayan -= amount;
+					} else {
+						opinionMayan = -200;
+					}
+
+					if (opinionChinese - amount >= -200) {
+						opinionChinese -= amount;
+					} else {
+						opinionChinese = -200;
+					}
+
+					if (opinionHindu - amount >= -200) {
+						opinionHindu -= amount;
+					} else {
+						opinionHindu = -200;
+					}
+
+					if (opinionAztec - amount >= -200) {
+						opinionAztec -= amount;
+					} else {
+						opinionAztec = -200;
+					}
+				}
+				religion = PantheonReference.pantheons[PantheonReference.EGYPTIAN];
+				religionId = PantheonReference.EGYPTIAN;
+				break;
+
+			case 5:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.MAYAN])) {
+
+					culturePoints = 0;
+					if (opinionMayan + amount <= 200) {
+						opinionMayan += amount;
+					} else {
+						opinionMayan = 200;
+					}
+
+					if (opinionNorse - amount >= -200) {
+						opinionNorse -= amount;
+					} else {
+						opinionNorse = -200;
+					}
+
+					if (opinionRoman - amount >= -200) {
+						opinionRoman -= amount;
+					} else {
+						opinionRoman = -200;
+					}
+
+					if (opinionEgyptian - amount >= -200) {
+						opinionEgyptian -= amount;
+					} else {
+						opinionEgyptian = -200;
+					}
+
+					if (opinionGreek - amount >= -200) {
+						opinionGreek -= amount;
+					} else {
+						opinionGreek = -200;
+					}
+
+					if (opinionChinese - amount >= -200) {
+						opinionChinese -= amount;
+					} else {
+						opinionChinese = -200;
+					}
+
+					if (opinionHindu - amount >= -200) {
+						opinionHindu -= amount;
+					} else {
+						opinionHindu = -200;
+					}
+
+					if (opinionAztec - amount >= -200) {
+						opinionAztec -= amount;
+					} else {
+						opinionAztec = -200;
+					}
+				}
+				religion = PantheonReference.pantheons[PantheonReference.MAYAN];
+				religionId = PantheonReference.MAYAN;
+				break;
+
+			case 6:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.CHINESE])) {
+
+					culturePoints = 0;
+					if (opinionChinese + amount <= 200) {
+						opinionChinese += amount;
+					} else {
+						opinionChinese = 200;
+					}
+
+					if (opinionNorse - amount >= -200) {
+						opinionNorse -= amount;
+					} else {
+						opinionNorse = -200;
+					}
+
+					if (opinionRoman - amount >= -200) {
+						opinionRoman -= amount;
+					} else {
+						opinionRoman = -200;
+					}
+
+					if (opinionEgyptian - amount >= -200) {
+						opinionEgyptian -= amount;
+					} else {
+						opinionEgyptian = -200;
+					}
+
+					if (opinionMayan - amount >= -200) {
+						opinionMayan -= amount;
+					} else {
+						opinionMayan = -200;
+					}
+
+					if (opinionGreek - amount >= -200) {
+						opinionGreek -= amount;
+					} else {
+						opinionGreek = -200;
+					}
+
+					if (opinionHindu - amount >= -200) {
+						opinionHindu -= amount;
+					} else {
+						opinionHindu = -200;
+					}
+
+					if (opinionAztec - amount >= -200) {
+						opinionAztec -= amount;
+					} else {
+						opinionAztec = -200;
+					}
+				}
+				religion = PantheonReference.pantheons[PantheonReference.CHINESE];
+				religionId = PantheonReference.CHINESE;
+				break;
+
+			case 7:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.HINDU])) {
+
+					culturePoints = 0;
+					if (opinionHindu + amount <= 200) {
+						opinionHindu += amount;
+					} else {
+						opinionHindu = 200;
+					}
+
+					if (opinionNorse - amount >= -200) {
+						opinionNorse -= amount;
+					} else {
+						opinionNorse = -200;
+					}
+
+					if (opinionRoman - amount >= -200) {
+						opinionRoman -= amount;
+					} else {
+						opinionRoman = -200;
+					}
+
+					if (opinionEgyptian - amount >= -200) {
+						opinionEgyptian -= amount;
+					} else {
+						opinionEgyptian = -200;
+					}
+
+					if (opinionMayan - amount >= -200) {
+						opinionMayan -= amount;
+					} else {
+						opinionMayan = -200;
+					}
+
+					if (opinionChinese - amount >= -200) {
+						opinionChinese -= amount;
+					} else {
+						opinionChinese = -200;
+					}
+
+					if (opinionGreek - amount >= -200) {
+						opinionGreek -= amount;
+					} else {
+						opinionGreek = -200;
+					}
+
+					if (opinionAztec - amount >= -200) {
+						opinionAztec -= amount;
+					} else {
+						opinionAztec = -200;
+					}
+				}
+				religion = PantheonReference.pantheons[PantheonReference.HINDU];
+				religionId = PantheonReference.HINDU;
+				break;
+
+			case 8:
+				if (!currentReligion.equals(PantheonReference.pantheons[PantheonReference.AZTECIAN])) {
+
+					culturePoints = 0;
+					if (opinionAztec + amount <= 200) {
+						opinionAztec += amount;
+					} else {
+						opinionAztec = 200;
+					}
+
+					if (opinionNorse - amount >= -200) {
+						opinionNorse -= amount;
+					} else {
+						opinionNorse = -200;
+					}
+
+					if (opinionRoman - amount >= -200) {
+						opinionRoman -= amount;
+					} else {
+						opinionRoman = -200;
+					}
+
+					if (opinionEgyptian - amount >= -200) {
+						opinionEgyptian -= amount;
+					} else {
+						opinionEgyptian = -200;
+					}
+
+					if (opinionMayan - amount >= -200) {
+						opinionMayan -= amount;
+					} else {
+						opinionMayan = -200;
+					}
+
+					if (opinionChinese - amount >= -200) {
+						opinionChinese -= amount;
+					} else {
+						opinionChinese = -200;
+					}
+
+					if (opinionHindu - amount >= -200) {
+						opinionHindu -= amount;
+					} else {
+						opinionHindu = -200;
+					}
+
+					if (opinionGreek - amount >= -200) {
+						opinionGreek -= amount;
+					} else {
+						opinionGreek = -200;
+					}
+				}
+
 				religion = PantheonReference.pantheons[PantheonReference.AZTECIAN];
 				religionId = PantheonReference.AZTECIAN;
+				break;
+
+			case 9:
+				System.out.println("Changing the gui.");
+				if (getStatsPage())
+					setStatsPage(false);
+				else
+					setStatsPage(true);
 				break;
 		}
 
 		PantheonCraft.packetPipeline.sendToServer(new UpdateReligionPacket(religion, religionId, culturePoints));
 		PantheonCraft.packetPipeline.sendToServer(new UpdateOpinionPacket(opinionGreek, opinionNorse, opinionRoman, opinionEgyptian, opinionMayan, opinionChinese, opinionHindu, opinionAztec));
+	}
+
+	public void setStatsPage(boolean info) {
+
+		this.statsPage = info;
+	}
+
+	public boolean getStatsPage() {
+
+		return statsPage;
 	}
 }

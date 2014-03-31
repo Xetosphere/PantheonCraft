@@ -22,8 +22,11 @@ import com.xetosphere.pantheon.network.packet.UpdateOpinionPacket;
 public class ItemTalisman extends ItemPC {
 
 	public ItemTalisman() {
+		
+		maxStackSize = 1;
 	}
 
+	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
 
 		String pantheon = ExtendedPlayer.get(player).getPantheon();

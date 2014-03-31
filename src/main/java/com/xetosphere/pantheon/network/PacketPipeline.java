@@ -59,6 +59,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 		return true;
 	}
 
+	@Override
 	protected void encode(ChannelHandlerContext ctx, AbstractPacket msg, List<Object> out) throws Exception {
 
 		ByteBuf buffer = Unpooled.buffer();

@@ -16,6 +16,7 @@ public class CommonProxy implements IGuiHandler {
 
 	private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<String, NBTTagCompound>();
 
+	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 
 		if (id == GuiIds.RELIGION_GUI) {
@@ -26,6 +27,7 @@ public class CommonProxy implements IGuiHandler {
 		return null;
 	}
 
+	@Override
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 
 		if (id == GuiIds.RELIGION_GUI) {
